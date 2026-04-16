@@ -1,0 +1,35 @@
+name: Python Build & Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
+
+    - name: Run addition script with test cases
+      run: |
+        echo "Test 1: Adding 5 and 3"
+        echo "5" | python src/hello-world.py
+        echo ""
+        echo "Test 2: Adding 10.5 and 20.3"
+        echo "10.5" | python src/hello-world.py
