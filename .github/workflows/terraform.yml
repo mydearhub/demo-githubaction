@@ -1,0 +1,30 @@
+name: terraform build & test
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - 'IaC/terraform/**'
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - 'IaC/terraform/**'
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.5.0
+    - name: Initialize Terraform
+      run: terraform init
+    - name: Validate Terraform configuration
+      run: terraform validate
+    - name: Plan Terraform deployment
+      run: terraform plan -out=tfplan
+    - name: Show Terraform plan
+      run: terraform show -no-color tfplan
+    - name: Clean up Terraform plan file
+      run: rm -f tfplan
