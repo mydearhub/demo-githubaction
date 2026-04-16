@@ -29,7 +29,7 @@ jobs:
     - name: Run addition script with test cases
       run: |
         echo "Test 1: Adding 5 and 3"
-        echo "5" | python src/hello-world.py
+        (echo "5"; echo "3") | python src/hello-world.py
         echo ""
         echo "Test 2: Adding 10.5 and 20.3"
-        echo "10.5" | python src/hello-world.py
+        (echo "10.5"; echo "20.3") | python src/hello-world.py
